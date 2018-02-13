@@ -1,3 +1,5 @@
 <ul>
-  <li *ngFor="let video of videoList">{{video.title}}</li>
+  <li [class.selected]="video.id === selectedVideoID"
+      (click)="setSelectedVideoID(video.id)"
+      *ngFor="let video of videoList">{{video.title}}</li>
 </ul>
