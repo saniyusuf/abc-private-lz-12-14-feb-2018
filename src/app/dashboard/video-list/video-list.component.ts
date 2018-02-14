@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-video-list',
@@ -9,6 +9,7 @@ export class VideoListComponent implements OnInit {
 
   public videoList = videoData;
   public selectedVideoID;
+  @Output() videoSelected = new EventEmitter<any>();
 
   constructor() { }
 
@@ -17,6 +18,12 @@ export class VideoListComponent implements OnInit {
 
   setSelectedVideoID(id){
     this.selectedVideoID = id;
+    this.videoList.forEach((video)=>{
+      if(video.id ===  id){
+        this.videoSelected.emit(video);
+      }
+    });
+
   }
 
 }

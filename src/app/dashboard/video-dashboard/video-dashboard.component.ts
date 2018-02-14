@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoDashboardComponent implements OnInit {
 
+  public selectedVideo;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  videoSelectionChanged(video){
+    this.selectedVideo = video;
   }
 
 }
