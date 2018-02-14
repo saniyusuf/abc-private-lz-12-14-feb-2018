@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {VideoService} from '../../video.service';
 
 @Component({
   selector: 'app-video-list',
@@ -8,14 +9,12 @@ import {HttpClient} from '@angular/common/http';
 })
 export class VideoListComponent implements OnInit {
 
-  public videoList: Video[];
+  public videoList$: Observable<Video[]>;
   public selectedVideoID;
   @Output() videoSelected = new EventEmitter<any>();
 
-  constructor(private httpClient: HttpClient) {
-    httpClient
-      .get<Video[]>('http://localhost:8085/videos')
-      .subscribe((videoData)=> this.videoList = videoData)
+  constructor(private videoService: VideoService) {
+    this.videoList$ = videoService.getVideos();
   }
 
   ngOnInit() {
@@ -23,11 +22,14 @@ export class VideoListComponent implements OnInit {
 
   setSelectedVideoID(id){
     this.selectedVideoID = id;
-    this.videoList.forEach((video)=>{
-      if(video.id ===  id){
-        this.videoSelected.emit(video);
-      }
-    });
+    this.videoList$
+      .subscribe((videoList)=>{
+        videoList.forEach((video)=>{
+          if(video.id ===  id){
+            this.videoSelected.emit(video);
+          }
+        });
+      });
 
   }
 

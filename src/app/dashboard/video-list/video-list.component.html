@@ -1,7 +1,7 @@
 <ul>
   <li [class.selected]="video.id === selectedVideoID"
       (click)="setSelectedVideoID(video.id)"
-      *ngFor="let video of videoList">
+      *ngFor="let video of (videoList$ | async)">
     <app-video-thumbnail [videoData]="video"></app-video-thumbnail>
   </li>
 </ul>
